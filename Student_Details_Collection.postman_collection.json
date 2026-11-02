@@ -1,0 +1,693 @@
+{
+  "info": {
+    "_postman_id": "9af59bed-fa25-4c90-ac49-ace40a26fc7d",
+    "name": "Student_Details_Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58366234",
+    "_collection_link": "https://go.postman.co/collection/58366234-9af59bed-fa25-4c90-ac49-ace40a26fc7d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "GetStudent",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Assertion for Status code\r",
+              "pm.test(\"TC-1. Verify if the status code is 200\", function () {\r",
+              "    pm.expect(pm.response.code).to.eql(200);\r",
+              "});\r",
+              "\r",
+              "// Assertion for Response time\r",
+              "pm.test(\"TC-2. Verify if the response time is less than 5000ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+              "});\r",
+              "\r",
+              "// Assertion for Response size\r",
+              "pm.test(\"TC-3. Verify if the response size is less than 100000 bytes\", function () {\r",
+              "    pm.expect(pm.response.text().length).to.be.below(100000);\r",
+              "});\r",
+              "\r",
+              "// Assertion for student details\r",
+              "pm.test(\"TC-4. Verify if the response contains student details\", function () {\r",
+              "    var responsebody = pm.response.json();\r",
+              "    pm.expect(responsebody).to.have.length.above(0);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{Base_URL}}/studentsDetails",
+          "host": [
+            "{{Base_URL}}"
+          ],
+          "path": [
+            "studentsDetails"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CreateStudent",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Setting firstname\r",
+              "var firstname = pm.variables.replaceIn(\"{{$randomFirstName}}\");\r",
+              "pm.environment.set(\"Firstname\", firstname);\r",
+              "\r",
+              "// Setting middlename\r",
+              "var middlename = pm.variables.replaceIn(\"{{$randomFirstName}}\");\r",
+              "pm.environment.set(\"Middlename\", middlename);\r",
+              "\r",
+              "// Setting lastname\r",
+              "var lastname = pm.variables.replaceIn(\"{{$randomLastName}}\");\r",
+              "pm.environment.set(\"Lastname\", lastname);\r",
+              "\r",
+              "// Setting DoB\r",
+              "var dateofbirth = pm.variables.replaceIn(\"{{$randomDatePast}}\");\r",
+              "pm.environment.set(\"DateofBirth\", dateofbirth);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json(); ",
+              "pm.environment.set(\"id\", responseBody.id)",
+              "",
+              "// Assertion for Status code",
+              "pm.test(\"TC-1. Verify if the status code is 201\", function () {",
+              "    pm.expect(pm.response.code).to.eql(201);",
+              "});",
+              "",
+              "// Assertion for Response time",
+              "pm.test(\"TC-2. Verify if the response time is less than 10000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(10000);",
+              "});",
+              "",
+              "// Assertion for Response size",
+              "pm.test(\"TC-3. Verify if the response size is less than 5000 bytes\", function () {",
+              "    pm.expect(pm.response.text().length).to.be.below(5000);",
+              "});",
+              "",
+              "// Assertion for First name",
+              "pm.test(\"TC-4. Verify if the first name is matching the environment\", function () {",
+              "    pm.expect(responseBody.first_name).to.eql(pm.environment.get(\"Firstname\"));",
+              "});",
+              "",
+              "// Assertion for Middle name",
+              "pm.test(\"TC-5. Verify if the middle name is matching the environment\", function () {",
+              "    pm.expect(responseBody.middle_name).to.eql(pm.environment.get(\"Middlename\"));",
+              "});",
+              "",
+              "// Assertion for Last name",
+              "pm.test(\"TC-6. Verify if the last name is matching the environment\", function () {",
+              "    pm.expect(responseBody.last_name).to.eql(pm.environment.get(\"Lastname\"));",
+              "});",
+              "",
+              "// Assertion for Date of birth",
+              "pm.test(\"TC-7. Verify if the date of birth is matching the environment\", function () {",
+              "    pm.expect(responseBody.date_of_birth).to.eql(pm.environment.get(\"DateofBirth\"));",
+              "    });",
+              "",
+              "// Assertion for id presence",
+              "pm.test(\"TC-8. Verify if id is not null\", function () {",
+              "    pm.expect(responseBody.id).to.not.eql(null);",
+              "    });",
+              "",
+              "// Assertion for id matching",
+              "pm.test(\"TC-9. Verify if the id is matching the environment\", function () {",
+              "    pm.expect(responseBody.id).to.eql(pm.environment.get(\"id\"));",
+              "    });",
+              "",
+              "// Assertion for id value",
+              "pm.test(\"TC-10. Verify if id is greater than 0\", function () {",
+              "    pm.expect(responseBody.id).to.be.above(0);",
+              "    });",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"first_name\": \"{{Firstname}}\",\r\n  \"middle_name\": \"{{Middlename}}\",\r\n  \"last_name\": \"{{Lastname}}\",\r\n  \"date_of_birth\": \"{{DateofBirth}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{Base_URL}}/studentsDetails",
+          "host": [
+            "{{Base_URL}}"
+          ],
+          "path": [
+            "studentsDetails"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateStudent",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "var Middlename = pm.variables.replaceIn(\"{{$randomFirstName}}\")",
+              "pm.environment.set(\"Middlename\", Middlename);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Assertion for Status code",
+              "pm.test(\"TC-1. Verify if the status code is 200\", function () {",
+              "    pm.expect(pm.response.code).to.eql(200);",
+              "});",
+              "",
+              "// Assertion for Response time",
+              "pm.test(\"TC-2. Verify if the response time is less than 10000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(10000);",
+              "});",
+              "",
+              "// Assertion for Response size",
+              "pm.test(\"TC-3. Verify if the response size is less than 5000 bytes\", function () {",
+              "    pm.expect(pm.response.text().length).to.be.below(5000);",
+              "});",
+              "",
+              "// Assertion for status state",
+              "pm.test(\"TC-4. Verify if the status is true\", function () {",
+              "    pm.expect(JSON.parse(pm.response.text()).status).to.eql(\"true\");",
+              "});",
+              "",
+              "// Assertion for status message presence",
+              "pm.test(\"TC-5. Verify if the status message is showing\", function () {",
+              "    pm.expect(JSON.parse(pm.response.text()).msg).to.not.eql(null);",
+              "});",
+              "",
+              "// Assertion for status message value",
+              "pm.test(\"TC-6. Verify if the status message is 'update  data success'\", function () {",
+              "    pm.expect(JSON.parse(pm.response.text()).msg).to.eql(\"update  data success\");",
+              "});",
+              "",
+              "// Assertion for status state presence",
+              "pm.test(\"TC-7. Verify if the status state is shown\", function () {",
+              "    pm.expect(JSON.parse(pm.response.text()).status).to.not.eql(null);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": {{id}},\r\n    \"first_name\": \"{{Firstname}}\",\r\n    \"middle_name\": \"{{Middlename}}\",\r\n    \"last_name\": \"{{Lastname}}\",\r\n    \"date_of_birth\": \"{{DateofBirth}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{Base_URL}}/studentsDetails/{{id}}",
+          "host": [
+            "{{Base_URL}}"
+          ],
+          "path": [
+            "studentsDetails",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetUpdatedStudent",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json(); ",
+              "",
+              "// Assertion for Status code",
+              "pm.test(\"TC-1. Verify if the status code is 200\", function () {",
+              "    pm.expect(pm.response.code).to.eql(200);",
+              "});",
+              "",
+              "// Assertion for Response time",
+              "pm.test(\"TC-2. Verify if the response time is less than 10000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(10000);",
+              "});",
+              "",
+              "// Assertion for Response size",
+              "pm.test(\"TC-3. Verify if the response size is less than 5000 bytes\", function () {",
+              "    pm.expect(pm.response.text().length).to.be.below(5000);",
+              "});",
+              "",
+              "// Assertion for First name",
+              "pm.test(\"TC-4. Verify if the first name is matching the environment\", function () {",
+              "    pm.expect(responseBody.data.first_name).to.eql(pm.environment.get(\"Firstname\"));",
+              "});",
+              "",
+              "// Assertion for Middle name",
+              "pm.test(\"TC-5. Verify if the middle name is matching the environment\", function () {",
+              "    pm.expect(responseBody.data.middle_name).to.eql(pm.environment.get(\"Middlename\"));",
+              "});",
+              "",
+              "// Assertion for Last name",
+              "pm.test(\"TC-6. Verify if the last name is matching the environment\", function () {",
+              "    pm.expect(responseBody.data.last_name).to.eql(pm.environment.get(\"Lastname\"));",
+              "});",
+              "",
+              "// Assertion for Date of birth",
+              "pm.test(\"TC-7. Verify if the date of birth is matching the environment\", function () {",
+              "    pm.expect(responseBody.data.date_of_birth).to.eql(pm.environment.get(\"DateofBirth\"));",
+              "    });",
+              "",
+              "// Assertion for id matching",
+              "pm.test(\"TC-8. Verify if the id is matching the environment\", function () {",
+              "    pm.expect(responseBody.data.id).to.eql(parseInt(pm.environment.get(\"id\")));",
+              "    });",
+              "",
+              "// Assertion for status state presence",
+              "pm.test(\"TC-9. Verify if the status state is shown\", function () {",
+              "    pm.expect(responseBody.status).to.not.eql(null);",
+              "});",
+              "",
+              "// Assertion for status state",
+              "pm.test(\"TC-10. Verify if the status is true\", function () {",
+              "    pm.expect(responseBody.status).to.eql(\"true\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{Base_URL}}/studentsDetails/{{id}}",
+          "host": [
+            "{{Base_URL}}"
+          ],
+          "path": [
+            "studentsDetails",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CreateTechnicalSkills",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Setting first language\r",
+              "var Flanguage = pm.variables.replaceIn(\"{{$randomAdjective}}\")\r",
+              "pm.environment.set(\"Flanguage\", Flanguage);\r",
+              "\r",
+              "// Setting second language\r",
+              "var Slanguage = pm.variables.replaceIn(\"{{$randomAdjective}}\")\r",
+              "pm.environment.set(\"Slanguage\", Slanguage);\r",
+              "\r",
+              "// Setting year of experience\r",
+              "var YearExp = pm.variables.replaceIn(\"{{$randomSemver}}\")\r",
+              "pm.environment.set(\"YearExp\", YearExp);\r",
+              "\r",
+              "// Setting last usage\r",
+              "var LastUse = pm.variables.replaceIn(\"{{$randomWeekday}}\")\r",
+              "pm.environment.set(\"LastUse\", LastUse);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Assertion for Status code",
+              "pm.test(\"TC-1. Verify if the status code is 201\", function () {",
+              "    pm.expect(pm.response.code).to.eql(201);",
+              "});",
+              "",
+              "// Assertion for Response time",
+              "pm.test(\"TC-2. Verify if the response time is less than 10000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(10000);",
+              "});",
+              "",
+              "// Assertion for Response size",
+              "pm.test(\"TC-3. Verify if the response size is less than 5000 bytes\", function () {",
+              "    pm.expect(pm.response.text().length).to.be.below(5000);",
+              "});",
+              "",
+              "// Assertion for status state",
+              "pm.test(\"TC-4. Verify if the status is true\", function () {",
+              "    pm.expect(JSON.parse(pm.response.text()).status).to.eql(\"true\");",
+              "});",
+              "",
+              "// Assertion for status message presence",
+              "pm.test(\"TC-5. Verify if the status message is showing\", function () {",
+              "    pm.expect(JSON.parse(pm.response.text()).msg).to.not.eql(null);",
+              "});",
+              "",
+              "// Assertion for status message value",
+              "pm.test(\"TC-6. Verify if the status message is 'Add  data success'\", function () {",
+              "    pm.expect(JSON.parse(pm.response.text()).msg).to.eql(\"Add  data success\");",
+              "});",
+              "",
+              "// Assertion for status state presence",
+              "pm.test(\"TC-7. Verify if the status state is shown\", function () {",
+              "    pm.expect(JSON.parse(pm.response.text()).status).to.not.eql(null);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \r\n    \"id\": {{id}}, \r\n    \"language\": \r\n    [ \r\n        \"{{Flanguage}}\", \r\n        \"{{Slanguage}}\" \r\n    ], \r\n    \"yearexp\": \"{{YearExp}}\", \r\n    \"lastused\": \"{{LastUse}}\", \r\n    \"st_id\": \"{{id}}\" \r\n} ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{Base_URL}}/technicalskills",
+          "host": [
+            "{{Base_URL}}"
+          ],
+          "path": [
+            "technicalskills"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CreateStudentAddress",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Setting house number\r",
+              "var HouseNo = pm.variables.replaceIn(\"{{$randomStreetAddress}}\")\r",
+              "pm.environment.set(\"HouseNo\", HouseNo);\r",
+              "\r",
+              "// Setting city\r",
+              "var City = pm.variables.replaceIn(\"{{$randomCity}}\");\r",
+              "pm.environment.set(\"City\", City);\r",
+              "\r",
+              "// Setting state\r",
+              "var State = pm.variables.replaceIn(\"{{$randomCity}}\");\r",
+              "pm.environment.set(\"State\", State);\r",
+              "\r",
+              "// Setting country\r",
+              "var Country = pm.variables.replaceIn(\"{{$randomCountry}}\");\r",
+              "pm.environment.set(\"Country\", Country);\r",
+              "\r",
+              "// Setting home contact number\r",
+              "var HomeContactNo = pm.variables.replaceIn(\"{{$randomPhoneNumber}}\");\r",
+              "pm.environment.set(\"HomeContactNo\", HomeContactNo);\r",
+              "\r",
+              "// Setting mobile contact number\r",
+              "var MobileContactNo = pm.variables.replaceIn(\"{{$randomPhoneNumber}}\");\r",
+              "pm.environment.set(\"MobileContactNo\", MobileContactNo);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Assertion for Status code\r",
+              "pm.test(\"TC-1. Verify if the status code is 201\", function () {\r",
+              "    pm.expect(pm.response.code).to.eql(201);\r",
+              "});\r",
+              "\r",
+              "// Assertion for Response time\r",
+              "pm.test(\"TC-2. Verify if the response time is less than 10000ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(10000);\r",
+              "});\r",
+              "\r",
+              "// Assertion for Response size\r",
+              "pm.test(\"TC-3. Verify if the response size is less than 5000 bytes\", function () {\r",
+              "    pm.expect(pm.response.text().length).to.be.below(5000);\r",
+              "});\r",
+              "\r",
+              "// Assertion for status state\r",
+              "pm.test(\"TC-4. Verify if the status is true\", function () {\r",
+              "    pm.expect(JSON.parse(pm.response.text()).status).to.eql(\"true\");\r",
+              "});\r",
+              "\r",
+              "// Assertion for status message presence\r",
+              "pm.test(\"TC-5. Verify if the status message is showing\", function () {\r",
+              "    pm.expect(JSON.parse(pm.response.text()).msg).to.not.eql(null);\r",
+              "});\r",
+              "\r",
+              "// Assertion for status message value\r",
+              "pm.test(\"TC-6. Verify if the status message is 'Add  data success'\", function () {\r",
+              "    pm.expect(JSON.parse(pm.response.text()).msg).to.eql(\"Add  data success\");\r",
+              "});\r",
+              "\r",
+              "// Assertion for status state presence\r",
+              "pm.test(\"TC-7. Verify if the status state is shown\", function () {\r",
+              "    pm.expect(JSON.parse(pm.response.text()).status).to.not.eql(null);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \r\n    \"Permanent_Address\": { \r\n        \"House_Number\": \"{{HouseNo}}\",\r\n        \"City\": \"{{City}}\",\r\n        \"State\": \"{{State}}\", \r\n        \"Country\": \"{{Country}}\",\r\n        \"PhoneNumber\": [ \r\n            { \r\n            \"Std_Code\": \"+88\",\r\n            \"Home\": \"{{HomeContactNo}}\",\r\n            \"Mobile\": \"{{MobileContactNo}}\" \r\n            },\r\n            { \r\n            \"Std_Code\": \"+88\",\r\n            \"Home\": \"{{HomeContactNo}}\", \r\n            \"Mobile\": \"{{MobileContactNo}}\" \r\n            } \r\n        ] \r\n    },\r\n    \"stId\": {{id}} \r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{Base_URL}}/addresses/{{id}}",
+          "host": [
+            "{{Base_URL}}"
+          ],
+          "path": [
+            "addresses",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "FinalStudentDetails",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json(); ",
+              "",
+              "// Assertion for Status code",
+              "pm.test(\"TC-1. Verify if the status code is 200\", function () {",
+              "    pm.expect(pm.response.code).to.eql(200);",
+              "});",
+              "",
+              "// Assertion for Response time",
+              "pm.test(\"TC-2. Verify if the response time is less than 10000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(10000);",
+              "});",
+              "",
+              "// Assertion for Response size",
+              "pm.test(\"TC-3. Verify if the response size is less than 5000 bytes\", function () {",
+              "    pm.expect(pm.response.text().length).to.be.below(5000);",
+              "});",
+              "",
+              "// Assertion for First name",
+              "pm.test(\"TC-4. Verify if the first name is matching the environment\", function () {",
+              "    pm.expect(responseBody.data.first_name).to.eql(pm.environment.get(\"Firstname\"));",
+              "});",
+              "",
+              "// Assertion for Middle name",
+              "pm.test(\"TC-5. Verify if the middle name is matching the environment\", function () {",
+              "    pm.expect(responseBody.data.middle_name).to.eql(pm.environment.get(\"Middlename\"));",
+              "});",
+              "",
+              "// Assertion for Last name",
+              "pm.test(\"TC-6. Verify if the last name is matching the environment\", function () {",
+              "    pm.expect(responseBody.data.last_name).to.eql(pm.environment.get(\"Lastname\"));",
+              "});",
+              "",
+              "// Assertion for Date of birth",
+              "pm.test(\"TC-7. Verify if the date of birth is matching the environment\", function () {",
+              "    pm.expect(responseBody.data.date_of_birth).to.eql(pm.environment.get(\"DateofBirth\"));",
+              "    });",
+              "",
+              "// Assertion for id matching",
+              "pm.test(\"TC-8. Verify if the id is matching the environment\", function () {",
+              "    pm.expect(responseBody.data.TechnicalDetails[0].st_id).to.eql(pm.environment.get(\"id\").toString());",
+              "    });",
+              "",
+              "// Assertion for status state presence",
+              "pm.test(\"TC-9. Verify if the status state is shown\", function () {",
+              "    pm.expect(responseBody.status).to.not.eql(null);",
+              "});",
+              "",
+              "// Assertion for status state",
+              "pm.test(\"TC-10. Verify if the status is true\", function () {",
+              "    pm.expect(responseBody.status).to.eql(\"true\");",
+              "});",
+              "",
+              "// Assertion for first language",
+              "pm.test(\"TC-11. Verify if the first language is matching with the environment\", function () {",
+              "    pm.expect(responseBody.data.TechnicalDetails[0].language[0]).to.eql(pm.environment.get(\"Flanguage\"));",
+              "});",
+              "",
+              "// Assertion for second language",
+              "pm.test(\"TC-12. Verify if the second language is matching with the environment\", function () {",
+              "    pm.expect(responseBody.data.TechnicalDetails[0].language[1]).to.eql(pm.environment.get(\"Slanguage\"));",
+              "});",
+              "",
+              "// Assertion for year of experince",
+              "pm.test(\"TC-13. Verify if the year of experince is matching with the environment\", function () {",
+              "    pm.expect(responseBody.data.TechnicalDetails[0].yearexp).to.eql(pm.environment.get(\"YearExp\"));",
+              "});",
+              "",
+              "// Assertion for last used day",
+              "pm.test(\"TC-14. Verify if the last used day is matching with the environment\", function () {",
+              "    pm.expect(responseBody.data.TechnicalDetails[0].lastused).to.eql(pm.environment.get(\"LastUse\"));",
+              "});",
+              "",
+              "// Assertion for house number",
+              "pm.test(\"TC-15. Verify if the house number is matching with the environment\", function () {",
+              "    pm.expect(responseBody.data.Address[0].Permanent_Address.House_Number).to.eql(pm.environment.get(\"HouseNo\"));",
+              "});",
+              "",
+              "// Assertion for city",
+              "pm.test(\"TC-16. Verify if the city is matching with the environment\", function () {",
+              "    pm.expect(responseBody.data.Address[0].Permanent_Address.City).to.eql(pm.environment.get(\"City\"));",
+              "});",
+              "",
+              "// Assertion for state",
+              "pm.test(\"TC-17. Verify if the state is matching with the environment\", function () {",
+              "    pm.expect(responseBody.data.Address[0].Permanent_Address.State).to.eql(pm.environment.get(\"State\"));",
+              "});",
+              "",
+              "// Assertion for country",
+              "pm.test(\"TC-18. Verify if the country is matching with the environment\", function () {",
+              "    pm.expect(responseBody.data.Address[0].Permanent_Address.Country).to.eql(pm.environment.get(\"Country\"));",
+              "});",
+              "",
+              "// Assertion for std code",
+              "pm.test(\"TC-19. Verify if the std code is +88\", function () {",
+              "    pm.expect(responseBody.data.Address[0].Permanent_Address.PhoneNumber[0].Std_Code).to.eql(\"+88\");",
+              "});",
+              "",
+              "// Assertion for home contact number",
+              "pm.test(\"TC-20. Verify if the home contact number is matching the environment\", function () {",
+              "    pm.expect(responseBody.data.Address[0].Permanent_Address.PhoneNumber[0].Home).to.eql(pm.environment.get(\"HomeContactNo\"));",
+              "});",
+              "",
+              "// Assertion for mobile contact number",
+              "pm.test(\"TC-21. Verify if the mobile contact number is matching the environment\", function () {",
+              "    pm.expect(responseBody.data.Address[0].Permanent_Address.PhoneNumber[0].Mobile).to.eql(pm.environment.get(\"MobileContactNo\"));",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{Base_URL}}/FinalStudentDetails/{{id}}",
+          "host": [
+            "{{Base_URL}}"
+          ],
+          "path": [
+            "FinalStudentDetails",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
