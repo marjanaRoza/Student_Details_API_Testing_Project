@@ -2,7 +2,7 @@
 
 Automated API test suite for the [Testing World](https://thetestingworldapi.com) student service, built in Postman and run from the command line with Newman, with an HTML report.
 
-![Newman Run Dashboard](screenshots/newman-report.png)
+![Newman Run Dashboard](Newman_Run_Dashboard.png)
 
 ## Overview
 
