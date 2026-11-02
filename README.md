@@ -64,6 +64,12 @@ All data-validation, response-time and response-size checks pass. The 2 failures
 
 ## 🛠️ Tools
 
-![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white
+· Postman 
+· Newman 
+· JavaScript (Chai assertions) 
+· Node.js
 
+## 📌 Disclaimer
+
+This is an independent manual testing project created for learning and portfolio purposes.
 
