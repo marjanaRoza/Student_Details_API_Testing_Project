@@ -71,5 +71,5 @@ All data-validation, response-time and response-size checks pass. The 2 failures
 
 ## 📌 Disclaimer
 
-This is an independent manual testing project created for learning and portfolio purposes.
+This is an independent API testing project created for learning and portfolio purposes.
 
