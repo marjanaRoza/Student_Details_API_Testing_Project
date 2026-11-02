@@ -10,13 +10,13 @@ The collection tests a complete student-record workflow (create, update, verify,
 
 | # | Request | Method | Endpoint | Purpose |
 |---|---------|--------|----------|---------|
-| 1 | 📋 GetStudent | GET | `/studentsDetails` | List all students |
-| 2 | ➕ CreateStudent | POST | `/studentsDetails` | Create a student with randomized data |
-| 3 | ✏️ UpdateStudent | PUT | `/studentsDetails/{id}` | Update the student's middle name |
-| 4 | 🔍 GetUpdatedStudent | GET | `/studentsDetails/{id}` | Verify the update |
-| 5 | 💻 CreateTechnicalSkills | POST | `/technicalskills` | Add technical skills |
-| 6 | 🏠 CreateStudentAddress | POST | `/addresses/{id}` | Add address and phone numbers |
-| 7 | ✅ FinalStudentDetails | GET | `/FinalStudentDetails/{id}` | Verify the complete profile (21 assertions) |
+| 1 | 📋&nbsp;GetStudent | GET | `/studentsDetails` | List all students |
+| 2 | ➕&nbsp;CreateStudent | POST | `/studentsDetails` | Create a student with randomized data |
+| 3 | ✏️&nbsp;UpdateStudent | PUT | `/studentsDetails/{id}` | Update the student's middle name |
+| 4 | 🔍&nbsp;GetUpdatedStudent | GET | `/studentsDetails/{id}` | Verify the update |
+| 5 | 💻&nbsp;CreateTechnicalSkills | POST | `/technicalskills` | Add technical skills |
+| 6 | 🏠&nbsp;CreateStudentAddress | POST | `/addresses/{id}` | Add address and phone numbers |
+| 7 | ✅&nbsp;FinalStudentDetails | GET | `/FinalStudentDetails/{id}` | Verify the complete profile (21 assertions) |
 
 ## ✨ Key Features
 
